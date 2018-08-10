@@ -2,7 +2,9 @@ import os
 import sys
 import glob
 
-sys.path.append('/media/data/louis/ProgramWorkResult/PSMA/')
+cwd = os.getcwd()
+fileDir = '/'.join(cwd.split('/')[:-1])
+sys.path.append(fileDir)
 from unet3d.data import write_data_to_file, open_data_file
 from unet3d.generator import get_training_and_validation_generators
 from unet3d.model import unet_model_3d
@@ -10,9 +12,9 @@ from unet3d.training import load_old_model, train_model
 
 config = dict()
 config["pool_size"] = (2, 2, 2)  # pool size for the max pooling operations
-config["image_shape"] = (256, 256, 250)  # This determines what shape the images will be cropped/resampled to.
-config["patch_shape"] = None  # switch to None to train on the whole image
-config["labels"] = (2,3)  # the label numbers on the input image
+config["image_shape"] = (512, 512, 250)  # This determines what shape the images will be cropped/resampled to.
+config["patch_shape"] = (64,64,64)  # switch to None to train on the whole image
+config["labels"] = (1,2,3)  # the label numbers on the input image
 config["n_labels"] = len(config["labels"])
 config["all_modalities"] = ["CT", "PET", "mask"]
 config["training_modalities"] = config["all_modalities"]  # change this if you want to only use some of the modalities
@@ -125,5 +127,5 @@ def main(folderName, overwrite=False):
     data_file_opened.close()
 
 if __name__ == "__main__":
-    folderName = '/media/data/louis/ResearchData/PSMA/data'
+    folderName ='/home/louis/Data/PSMA'
     main(folderName, overwrite=config["overwrite"])
