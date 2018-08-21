@@ -9,8 +9,16 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
-def get_whole_tumor_mask(data):
-    output = data > 0
+def get_bone_lesion(data):
+    output = data == 1
+    output.dtype = np.uint8
+    return output
+def get_lymphNode_lesion(data):
+    output = data == 2
+    output.dtype = np.uint8
+    return output
+def get_prostate_lesion(data):
+    output = data == 3
     output.dtype = np.uint8
     return output
 
@@ -19,8 +27,8 @@ def dice_coefficient(truth, prediction):
 
 prediction_dir = os.path.abspath("../data/prediction_isensee2017")
 def main():
-    header = ("WholeMask",)
-    masking_functions = (get_whole_tumor_mask,)
+    header = ("boneLesion","lymphNodeLesion","prostateLesion")
+    masking_functions = (get_bone_lesion, get_lymphNode_lesion, get_prostate_lesion)
     rows = list()
     for case_folder in glob.glob(os.path.join(prediction_dir,"validation_case*")):
         truth_file = os.path.join(case_folder, "truth.nii.gz")

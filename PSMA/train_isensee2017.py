@@ -46,7 +46,7 @@ config["model_file"] = os.path.abspath("../data/PSMA_isensee_2017_model.h5")
 config["training_file"] = os.path.abspath("../data/PSMA_isensee_training_ids.pkl")
 config["validation_file"] = os.path.abspath("../data/PSMA_isensee_validation_ids.pkl")
 config["trainingLog"] = 'training_isensee2017.log'
-config["overwrite"] = False  # If True, will previous files. If False, will use previously written files.
+config["overwrite"] = True  # If True, will previous files. If False, will use previously written files.
 
 
 def fetch_training_data_files(folderName):
