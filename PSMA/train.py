@@ -12,7 +12,7 @@ from unet3d.training import load_old_model, train_model
 
 config = dict()
 config["pool_size"] = (2, 2, 2)  # pool size for the max pooling operations
-config["image_shape"] = (512, 512, 250)  # This determines what shape the images will be cropped/resampled to.
+config["image_shape"] = (256, 256, 250)  # This determines what shape the images will be cropped/resampled to.
 config["patch_shape"] = (64,64,64)  # switch to None to train on the whole image
 config["labels"] = (1,2,3)  # the label numbers on the input image
 config["n_labels"] = len(config["labels"])
@@ -47,7 +47,7 @@ config["model_file"] = os.path.abspath("../data/PSMA_segmentation_model.h5")
 config["training_file"] = os.path.abspath("../data/PSMA_training_ids.pkl")
 config["validation_file"] = os.path.abspath("../data/PSMA_validation_ids.pkl")
 config["trainingLog"] = 'training.log'
-config["overwrite"] = True # If True, will previous files. If False, will use previously written files.
+config["overwrite"] = False # If True, will previous files. If False, will use previously written files.
 
 '''
 A nibabel image object is the association of three things:
@@ -127,5 +127,5 @@ def main(folderName, overwrite=False):
     data_file_opened.close()
 
 if __name__ == "__main__":
-    folderName ='/home/louis/Data/PSMA'
+    folderName ='/home/louis/Data/PSMA_New'
     main(folderName, overwrite=config["overwrite"])

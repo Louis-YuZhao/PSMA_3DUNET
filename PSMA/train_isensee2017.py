@@ -2,16 +2,18 @@ import os
 import glob
 import sys
 
-sys.path.append('/media/data/louis/ProgramWorkResult/PSMA/')
+cwd = os.getcwd()
+fileDir = '/'.join(cwd.split('/')[:-1])
+        
+sys.path.append(fileDir)
 from unet3d.data import write_data_to_file, open_data_file
 from unet3d.generator import get_training_and_validation_generators
 from unet3d.model import isensee2017_model
 from unet3d.training import load_old_model, train_model
 
-
 config = dict()
 config["image_shape"] = (256, 256, 250)  # This determines what shape the images will be cropped/resampled to.
-config["patch_shape"] = (256, 256, 250)  # switch to None to train on the whole image
+config["patch_shape"] = (64, 64, 64)  # switch to None to train on the whole image
 config["labels"] = (1,2,3)  # the label numbers on the input image
 config["n_base_filters"] = 16
 config["n_labels"] = len(config["labels"])
@@ -30,7 +32,7 @@ config["validation_batch_size"] = 12
 config["n_epochs"] = 500  # cutoff the training after this many epochs
 config["patience"] = 30  # learning rate will be reduced after this many epochs if the validation loss is not improving
 config["early_stop"] = 30  # training will be stopped after this many epochs without the validation loss improving
-config["initial_learning_rate"] = 1e-2
+config["initial_learning_rate"] = 1e-3
 config["learning_rate_drop"] = 0.5  # factor by which the learning rate will be reduced
 config["validation_split"] = 0.8  # portion of the data that will be used for training
 config["flip"] = False  # augments the data by randomly flipping an axis during
@@ -113,5 +115,5 @@ def main(folderName, overwrite=False):
 
 
 if __name__ == "__main__":
-    folderName = '/media/data/louis/ResearchData/PSMA/data'    
+    folderName = '/home/louis/Data/PSMA_New'  
     main(folderName, overwrite=config["overwrite"])
