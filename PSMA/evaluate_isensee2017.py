@@ -7,7 +7,7 @@ import pandas as pd
 import matplotlib
 matplotlib.use('agg')
 import matplotlib.pyplot as plt
-
+from train import config
 
 def get_bone_lesion(data):
     output = data == 1
