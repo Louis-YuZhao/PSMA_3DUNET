@@ -7,7 +7,9 @@ import pandas as pd
 #import matplotlib
 ##matplotlib.use('agg')
 import matplotlib.pyplot as plt
+from train_isensee2017 import config
 
+root_dir = os.path.abspath("/home/louis/Downloads/data")
 
 def get_bone_lesion(data):
     output = data == 1
@@ -25,7 +27,7 @@ def get_prostate_lesion(data):
 def dice_coefficient(truth, prediction):
     return 2 * np.sum(truth * prediction)/(np.sum(truth) + np.sum(prediction))
 
-prediction_dir = os.path.abspath("../data/prediction_isensee2017")
+prediction_dir = os.path.join(root_dir,"prediction_isensee2017")
 def main():
     header_choose = ("boneLesion","lymphNodeLesion","prostateLesion")
     masking_functions_choose = (get_bone_lesion, get_lymphNode_lesion, get_prostate_lesion)
@@ -56,7 +58,7 @@ def main():
 
     plt.boxplot(list(scores.values()), labels=list(scores.keys()))
     plt.ylabel("Dice Coefficient")
-    plt.savefig("../data/validation_scores_boxplot.png")
+    plt.savefig(os.path.join(root_dir,"validation_scores_boxplot.png"))
     plt.show()
     plt.close()
 
@@ -68,7 +70,7 @@ def main():
     plt.xlabel('Epoch')
     plt.xlim((0, len(training_df.index)))
     plt.legend(loc='upper right')
-    plt.savefig('../data/loss_graph.png')
+    plt.savefig(os.path.join(root_dir, 'loss_graph.png'))
     plt.show()
     plt.close()
 

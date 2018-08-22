@@ -27,7 +27,7 @@ def dice_coefficient(truth, prediction):
 
 prediction_dir = os.path.abspath("../data/prediction")
 def main():
-    header_choose = ("boneLesion","lymphNodeLesion","prostateLesion")
+    header_choose = ("boneLesion","lymphNodeLesion","localProstateLesion")
     masking_functions_choose = (get_bone_lesion, get_lymphNode_lesion, get_prostate_lesion)
     headerlist = []
     masking_functions_list = []
