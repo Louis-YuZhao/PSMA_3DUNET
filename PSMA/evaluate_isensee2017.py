@@ -57,7 +57,7 @@ def main():
     plt.boxplot(list(scores.values()), labels=list(scores.keys()))
     plt.ylabel("Dice Coefficient")
     plt.savefig("../data/validation_scores_boxplot.png")
-    plt.show()
+    # plt.show()
     plt.close()
 
     training_df = pd.read_csv("./training_isensee2017.log").set_index('epoch')
@@ -69,7 +69,7 @@ def main():
     plt.xlim((0, len(training_df.index)))
     plt.legend(loc='upper right')
     plt.savefig('../data/loss_graph.png')
-    plt.show()
+    # plt.show()
     plt.close()
 
 
