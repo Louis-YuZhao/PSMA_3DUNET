@@ -27,8 +27,16 @@ def dice_coefficient(truth, prediction):
 
 prediction_dir = os.path.abspath("../data/prediction_isensee2017")
 def main():
-    header = ("boneLesion","lymphNodeLesion","prostateLesion")
-    masking_functions = (get_bone_lesion, get_lymphNode_lesion, get_prostate_lesion)
+    header_choose = ("boneLesion","lymphNodeLesion","prostateLesion")
+    masking_functions_choose = (get_bone_lesion, get_lymphNode_lesion, get_prostate_lesion)
+    headerlist = []
+    masking_functions_list = []
+    for i in range(len(header_choose)):
+        if (i+1) in config["labels"]:
+            headerlist.append(header_choose[i])
+            masking_functions_list.append(masking_functions_choose[i])
+    header = tuple(headerlist)
+    masking_functions = tuple(masking_functions_list)
     rows = list()
     for case_folder in glob.glob(os.path.join(prediction_dir,"validation_case*")):
         truth_file = os.path.join(case_folder, "truth.nii.gz")
