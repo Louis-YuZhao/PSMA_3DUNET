@@ -112,7 +112,7 @@ def get_regions_3d(gtslice, labels):
     dslices = {}
     cnts = {}
     for label in labels:
-        dslices[str(label)] = np.copy(dumm16,41,42)
+        dslices[str(label)] = np.copy(16,41,42)
         cnts[str(label)] = 0
 
     inds = np.where(np.isin(gtslice,labels))
