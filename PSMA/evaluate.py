@@ -4,23 +4,31 @@ import nibabel as nib
 import os
 import glob
 import pandas as pd
-#import matplotlib
-#matplotlib.use('agg')
+import matplotlib
+matplotlib.use('agg')
 import matplotlib.pyplot as plt
 
 
-def get_whole_tumor_mask(data):
-    output = data > 0
+def get_bone_lesion(data):
+    output = data == 3
+    output.dtype = np.uint8
+    return output
+def get_lymphNode_lesion(data):
+    output = data == 2
+    output.dtype = np.uint8
+    return output
+def get_prostate_lesion(data):
+    output = data == 1
     output.dtype = np.uint8
     return output
 
 def dice_coefficient(truth, prediction):
     return 2 * np.sum(truth * prediction)/(np.sum(truth) + np.sum(prediction))
 
-prediction_dir = os.path.abspath("../data/prediction")
+prediction_dir = os.path.abspath("../data/Restore/sample_1/prediction")
 def main():
-    header = ("WholeMask",)
-    masking_functions = (get_whole_tumor_mask,)
+    header = ("boneLesion","lymphNodeLesion","prostateLesion")
+    masking_functions = (get_bone_lesion, get_lymphNode_lesion, get_prostate_lesion)
     rows = list()
     for case_folder in glob.glob(os.path.join(prediction_dir,"validation_case*")):
         truth_file = os.path.join(case_folder, "truth.nii.gz")
@@ -41,8 +49,8 @@ def main():
     plt.figure(1)
     plt.boxplot(list(scores.values()), labels=list(scores.keys()))
     plt.ylabel("Dice Coefficient")
-    plt.savefig("../data/validation_scores_boxplot.png")
-    plt.show()
+    plt.savefig("../data/Restore/sample_1/validation_scores_boxplot.png")
+    # plt.show()
     plt.close()
 
     training_df = pd.read_csv("./training.log").set_index('epoch')
@@ -54,8 +62,8 @@ def main():
     plt.xlabel('Epoch')
     plt.xlim((0, len(training_df.index)))
     plt.legend(loc='upper right')
-    plt.savefig('../data/loss_graph.png')
-    plt.show()
+    plt.savefig('../data/Restore/sample_1/loss_graph.png')
+    # plt.show()
     plt.close()
 
 
