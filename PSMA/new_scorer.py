@@ -85,7 +85,7 @@ def get_regions_3d(gtslice, labels):
     dslices = {}
     cnts = {}
     for label in labels:
-        dslices[str(label)] = np.copy(dummy[16,41,42])
+        dslices[str(label)] = np.copy(dummy)
         cnts[str(label)] = 0
 
     inds = np.where(np.isin(gtslice,labels))
@@ -214,13 +214,12 @@ def get_count_from_lists(y_true_list, y_pred_list, labels, labels_3d=None, perce
     for y_true, y_pred in zip(y_true_list,y_pred_list):
         cnt += 1
         print ('Patient', cnt)
-        scores = get_counts(y_true, y_pred, labels, percent)
-        if not labels_3d is None:
+        if labels_3d is None:
+            scores = get_counts(y_true, y_pred, labels, percent)
+            acc_scores.append(scores)
+        else:
             scores_3d = get_counts_3d(y_true, y_pred, labels_3d, percent)
-            for lab in labels_3d:
-                scores[str(lab)] = scores_3d[str(lab)]
-
-        acc_scores.append(scores)
+            acc_scores.append(scores_3d)
     return acc_scores
 
 def calculate_scores(count_list, label_dict):
@@ -307,5 +306,5 @@ if __name__ == '__main__':
     labels = load_lesion_labels()
     print ('SCORES CF VNET')    
     preds = load_predictions(preds_PREFIX)
-    scores = get_count_from_lists(y_true_list=labels, y_pred_list=preds, labels=[1,2,3], labels_3d=None, percent = 0.3)
+    scores = get_count_from_lists(y_true_list=labels, y_pred_list=preds, labels=[1,2,3], labels_3d=[1,2,3], percent = 0.3)
     calculate_scores(scores, label_dict)
