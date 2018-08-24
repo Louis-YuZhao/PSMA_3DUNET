@@ -240,10 +240,10 @@ def calculate_scores(count_list, label_dict):
 
             if sc['TP'] + sc['FN'] > 0:
 
-                accuracy = sc['TP']*1.0 / (sc['TP'] + sc['FN'])
-                precision = 0 if sc['TP'] == 0 else sc['TP']*1.0 / (sc['TP'] + sc['FP'])
-                recall = sc['TP']*1.0 / (sc['TP'] + sc['FN'])
-                dice = 0 if precision + recall == 0 else 2.0 * precision * recall / (precision + recall)
+                accuracy = sc['TP']*1.0 / (sc['TP'] + sc['FN'] + epslone)
+                precision = 0 if sc['TP'] == 0 else sc['TP']*1.0 / (sc['TP'] + sc['FP'] + epslone)
+                recall = sc['TP']*1.0 / (sc['TP'] + sc['FN'] + epslone)
+                dice = 0 if precision + recall == 0 else 2.0 * precision * recall / (precision + recall + epslone)
 
                 print (label_dict[key],':')
                 print ( 'precision', precision)
